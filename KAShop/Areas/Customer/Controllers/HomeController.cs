@@ -13,10 +13,10 @@ namespace KAShop.Areas.Customer.Controllers
         public IActionResult Index()
         {
 
-            // ViewBag.categories = context.Categories.ToList();
-            // ViewBag.products = context.Products.ToList();
-            var categories = context.Categories.ToList();
-            return View(categories);
+             ViewBag.categories = context.Categories.ToList();
+             ViewBag.products = context.Products.ToList();
+            //var categories = context.Categories.ToList();
+            return View();
             
         }
     }

@@ -1,4 +1,5 @@
 ﻿using KAShop.Data;
+using KAShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,27 @@ namespace KAShop.Areas.Admin.Controllers
                 TempData["message"] = "Category not found.";
             }
             return RedirectToAction("Index");
+        }
+
+        // GET: Admin/Categories/Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        // POST: Admin/Categories/Create
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult Create(Category request)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Categories.Add(request);
+                context.SaveChanges();
+                TempData["message"] = "Category created successfully.";
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
     }
