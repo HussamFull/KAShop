@@ -1,0 +1,43 @@
+﻿@model List<Product>
+
+@section heading {
+	<h1>Products</h1>
+}
+
+@section Title {
+					Create Product
+}
+
+
+
+<div class="card-body">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="width: 10px">#</th>
+                <th>Title</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>
+                        <a type="button" class="btn  btn-outline-danger " href="/admin/categories/delete/@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+</div>
+
+
+
+
