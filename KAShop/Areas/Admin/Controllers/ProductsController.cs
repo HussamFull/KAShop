@@ -42,6 +42,18 @@ namespace KAShop.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        // Delete: Admin/Products/Delete/5
+       
+        public IActionResult Delete(int id) {
+            var product = context.Products.FirstOrDefault(x => x.Id == id);
+            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", product.Image);
+            System.IO.File.Delete(fullPath);
+            
+            context.Products.Remove(product);
+            context.SaveChanges();
+            return RedirectToAction("Index");
 
+
+        }
     }
 }
