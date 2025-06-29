@@ -29,13 +29,15 @@ namespace KAShop.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Product request, IFormFile Image)
         {
-            var fileName = Guid.NewGuid().ToString(); //432823498243234
-            fileName = fileName + Path.GetExtension(Image.FileName);
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-            using (var stream = System.IO.File.Create(filePath))
-            {
-                Image.CopyTo(stream);
-            }
+            //var fileName = Guid.NewGuid().ToString(); //432823498243234
+            //fileName = fileName + Path.GetExtension(Image.FileName);
+            //var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+            //using (var stream = System.IO.File.Create(filePath))
+            //{
+            //    Image.CopyTo(stream);
+            //}
+            var imageService = new Services.ImageService();
+            string fileName = imageService.UploadImage(Image);
             request.Image = fileName;
             context.Products.Add(request);
             context.SaveChanges();
@@ -46,9 +48,10 @@ namespace KAShop.Areas.Admin.Controllers
        
         public IActionResult Delete(int id) {
             var product = context.Products.FirstOrDefault(x => x.Id == id);
-            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", product.Image);
-            System.IO.File.Delete(fullPath);
-            
+            var imageService = new Services.ImageService();
+            imageService.DeleteImage(product.Image);
+
+
             context.Products.Remove(product);
             context.SaveChanges();
             return RedirectToAction("Index");
