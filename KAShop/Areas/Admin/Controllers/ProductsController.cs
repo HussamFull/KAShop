@@ -38,6 +38,11 @@ namespace KAShop.Areas.Admin.Controllers
             //{
             //    Image.CopyTo(stream);
             //}
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Categories = context.Categories.ToList();
+                return View(request);
+            }
             var imageService = new Services.ImageService();
             string fileName = imageService.UploadImage(Image);
             request.Image = fileName;
