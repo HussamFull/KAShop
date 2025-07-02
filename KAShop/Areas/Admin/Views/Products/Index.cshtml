@@ -16,6 +16,13 @@
             <tr>
                 <th style="width: 10px">#</th>
                 <th>Title</th>
+				<th style="width: 40px">Image</th>
+				<th style="width: 40px">Price</th>
+				<th style="width: 40px">Quantity</th>
+				<th>Category</th>
+				<th>Description</th>
+				
+
                 <th>Action</th>
 
             </tr>
@@ -25,9 +32,22 @@
             {
                 <tr>
                     <td>@item.Id</td>
-                    <td>@item.Name</td>
+                    <td >@item.Name</td>
+
+                    <td style="width: 40px;">
+                        <img src="/images/@item.Image" alt="@item.Name" style="width: 40px; height: 40px; object-fit: cover;" />
+                    </td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Category.Name</td>
+                                     
+					<td>@item.Description</td>
+
+                     
+
                     <td>
                         <a type="button" class="btn  btn-outline-danger " href="/admin/products/delete/@item.Id">Delete</a>
+                        <a type="button" class="btn  btn-outline-primary " href="/admin/products/Edit/@item.Id">Edit</a>
                     </td>
                 </tr>
             }
