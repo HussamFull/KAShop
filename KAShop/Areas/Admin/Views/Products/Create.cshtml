@@ -5,6 +5,69 @@
 }
 
 @section Title {
+		Create Product
+}
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<label asp-for="Name"></label>
+		<input asp-for="Name" type="text" class="form-control" placeholder="Enter Name">
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Description"></label>
+		<textarea asp-for="Description" class="form-control" placeholder="Enter Description"></textarea>
+		<span asp-validation-for="Description" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Price"></label>
+		<input asp-for="Price" type="number" class="form-control" placeholder="Enter Price">
+		<span asp-validation-for="Price" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Quantity"></label>
+		<input asp-for="Quantity" type="number" class="form-control" placeholder="Enter Quantity">
+		<span asp-validation-for="Quantity" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Image"></label>
+		<input asp-for="Image" type="file" class="form-control" id="imageInput">
+		<span asp-validation-for="Image" class="text-danger"></span>
+		<span id="imageError" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<label asp-for="CategoryId"></label>
+		<select asp-for="CategoryId" class="form-control">
+			<option value="">-- Select Category --</option> @* Optional: Add a default 'select' option *@
+			@foreach (var item in ViewBag.Categories)
+			{
+				<option value="@item.Id">@item.Name</option>
+			}
+		</select>
+		<span asp-validation-for="CategoryId" class="text-danger"></span>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+@* @model Product
+
+@section heading {
+	<h1>Products</h1>
+}
+
+@section Title {
 	Create Product
 }
 
@@ -14,8 +77,8 @@
 
 
 	<div class="form-group">
-		<label for="exampleInputEmail1">Name</label>
-		<input name="Name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Name">
+		<label asp-for="Name">Name</label>
+		<input asp-for="Name" name="Name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Name">
 	
 		<span asp-validation-for="Name" class="text-danger"></span>
 	</div>
@@ -36,12 +99,19 @@
 		<span asp-validation-for="Quantity" class="text-danger"></span>
 
 	</div>
-
 	<div class="form-group">
+		<label asp-for="Image"></label>
+		<input asp-for="Image" type="file" class="form-control" id="imageInput">
+		<span asp-validation-for="Image" id="imageError" class="text-danger"></span>
+	</div> *@
+
+
+	@* <div class="form-group">
 		<label for="exampleInputEmail1">Image</label>
 		<input name="Image" type="file" class="form-control" id="exampleInputEmail1" >
 
-	</div>
+	</div> *@
+@* 
 	<div class="form-group">
 		<label for="exampleInputEmail1">Category</label>
 		<select name="CategoryId" class="form-control" id="exampleInputEmail1">
@@ -61,4 +131,4 @@
 
 	<button type="submit" class="btn btn-primary">Create</button>
 
-</form>
+</form> *@
