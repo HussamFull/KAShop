@@ -1,13 +1,16 @@
 ﻿@model List<Category>
 
 @section heading {
-	<h1>Categories</h1>
+    <h1>Categories</h1>
 }
 
 @section Title {
-	Show
+        Show
 }
 
+@section styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+}
 
 <div class="card-body">
     <table class="table table-bordered">
@@ -16,27 +19,55 @@
                 <th style="width: 10px">#</th>
                 <th>Title</th>
                 <th>Action</th>
-                
             </tr>
         </thead>
         <tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td>@item.Id</td>
-					<td>@item.Name</td>
-					<td>
-                        <a type="button" class="btn  btn-outline-danger " href="/admin/categories/delete/@item.Id">Delete</a>
-					</td>
-				</tr>
-			}
-
-           
-           
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger delete-category" data-id="@item.Id" data-name="@item.Name">Delete</button>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
 
+@section script {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            // معالجة النقر على زر الحذف
+            $('.delete-category').on('click', function () {
+                var categoryId = $(this).data('id');
+                var categoryName = $(this).data('name');
 
+                // عرض مربع حوار التأكيد
+                if (confirm('Are you sure you want to delete the category  "' + categoryName + '"؟')) {
+                    // إذا أكد المستخدم، قم بإعادة التوجيه لمسار الحذف
+                    window.location.href = '/admin/categories/delete/' + categoryId;
+                }
+            });
 
+            // عرض رسائل Toastr
+            // يجب أن تكون هذه الأجزاء داخل كتلة السكريبت العامة أيضًا
+        @if (TempData["success"] != null)
+        {
+            <text>
+                        toastr.success('@TempData["success"]');
+            </text>
+        }
+        @if (TempData["message"] != null)
+        {
+            <text>
+                        toastr.error('@TempData["message"]'); // لعرض رسالة الخطأ في حال عدم العثور على العنصر
+            </text>
+        }
+        });
+    </script>
+}

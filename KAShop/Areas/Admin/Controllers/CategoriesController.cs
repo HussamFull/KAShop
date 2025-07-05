@@ -25,7 +25,7 @@ namespace KAShop.Areas.Admin.Controllers
             {
                 context.Categories.Remove(category);
                 context.SaveChanges();
-                TempData["message"] = "Category deleted successfully.";
+                TempData["success"] = "Category deleted successfully.";
             }
             else
             {
@@ -49,7 +49,7 @@ namespace KAShop.Areas.Admin.Controllers
             {
                 context.Categories.Add(request);
                 context.SaveChanges();
-                TempData["message"] = "Category created successfully.";
+                TempData["success"] = "Category created successfully.";
                 return RedirectToAction("Index");
             }
             return View();

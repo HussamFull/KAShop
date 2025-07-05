@@ -7,6 +7,11 @@
 @section Title {
 					Create Product
 }
+@section styles {
+
+    <!-- Theme toastr -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    }
 
 
 
@@ -60,4 +65,19 @@
 
 
 
+@section script {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    @if (TempData["success"] != null)
+    {
+        <script>
+            toastr.success('@TempData["success"]');
+        </script>
+    }
+    @if (TempData["message"] != null)
+    {
+        <script>
+            toastr.error('@TempData["message"]'); // لعرض رسالة الخطأ في حال عدم العثور على العنصر
+        </script>
+    }
+}

@@ -48,6 +48,8 @@ namespace KAShop.Areas.Admin.Controllers
             request.Image = fileName;
             context.Products.Add(request);
             context.SaveChanges();
+            TempData["success"] = "Product created successfully.";
+
             return RedirectToAction("Index");
         }
         // GET: Admin/Products/Edit/5
@@ -82,6 +84,7 @@ namespace KAShop.Areas.Admin.Controllers
             }
             context.Products.Update(request);
             context.SaveChanges();
+            TempData["success"] = "Product  updated successfully.";    
             return RedirectToAction("Index");
         }
 
@@ -95,6 +98,7 @@ namespace KAShop.Areas.Admin.Controllers
 
             context.Products.Remove(product);
             context.SaveChanges();
+            TempData["success"] = "Product deleted successfully.";
             return RedirectToAction("Index");
 
 
