@@ -1,3 +1,5 @@
+﻿using Microsoft.EntityFrameworkCore;
+
 namespace KAShop
 {
     public class Program
@@ -30,7 +32,11 @@ namespace KAShop
                 pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
+
+
+
             app.Run();
         }
     }
 }
+

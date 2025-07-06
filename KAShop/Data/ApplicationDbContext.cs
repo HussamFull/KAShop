@@ -15,12 +15,18 @@ namespace KAShop.Data
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlServer("Server=LAPTOP-25Q2HGGN;Database=kashop_m_11;TrustServerCertificate=True;Trusted_Connection=True");
+            optionsBuilder.UseSqlServer("Server=db22947.public.databaseasp.net; Database=db22947; User Id=db22947; Password=6i_BT7y+#cR3; Encrypt=True; TrustServerCertificate=True; MultipleActiveResultSets=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // تحديد دقة وحجم لخاصية Price في Product
+            // Explicitly set precision for Product.Price
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Electronics" },
