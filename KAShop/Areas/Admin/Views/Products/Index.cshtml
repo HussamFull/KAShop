@@ -1,19 +1,18 @@
 ﻿@model List<Product>
 
 @section heading {
-	<h1>Products</h1>
+    <h1>Products</h1>
 }
 
 @section Title {
-					Create Product
+        Create Product
 }
 @section styles {
 
-    <!-- Theme toastr -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-    }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-
+}
 
 <div class="card-body">
     <table class="table table-bordered">
@@ -21,12 +20,11 @@
             <tr>
                 <th style="width: 10px">#</th>
                 <th>Title</th>
-				<th style="width: 40px">Image</th>
-				<th style="width: 40px">Price</th>
-				<th style="width: 40px">Quantity</th>
-				<th>Category</th>
-				<th>Description</th>
-				
+                <th style="width: 40px">Image</th>
+                <th style="width: 40px">Price</th>
+                <th style="width: 40px">Quantity</th>
+                <th>Category</th>
+                <th>Description</th>
 
                 <th>Action</th>
 
@@ -37,7 +35,7 @@
             {
                 <tr>
                     <td>@item.Id</td>
-                    <td >@item.Name</td>
+                    <td>@item.Name</td>
 
                     <td style="width: 40px;">
                         <img src="/images/@item.Image" alt="@item.Name" style="width: 40px; height: 40px; object-fit: cover;" />
@@ -45,39 +43,78 @@
                     <td>@item.Price</td>
                     <td>@item.Quantity</td>
                     <td>@item.Category.Name</td>
-                                     
-					<td>@item.Description</td>
 
-                     
+                    <td>@item.Description</td>
+
 
                     <td>
-                        <a type="button" class="btn  btn-outline-danger " href="/admin/products/delete/@item.Id">Delete</a>
-                        <a type="button" class="btn  btn-outline-primary " href="/admin/products/Edit/@item.Id">Edit</a>
+                        <button type="button" class="btn btn-outline-danger delete-product" data-id="@item.Id" data-name="@item.Name">Delete</button>
+                        <a class="btn btn-outline-primary" href="/admin/products/Edit/@item.Id">Edit</a>
                     </td>
                 </tr>
             }
-
-
-
         </tbody>
     </table>
 </div>
 
-
-
 @section script {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    @if (TempData["success"] != null)
-    {
-        <script>
-            toastr.success('@TempData["success"]');
-        </script>
-    }
-    @if (TempData["message"] != null)
-    {
-        <script>
-            toastr.error('@TempData["message"]'); // لعرض رسالة الخطأ في حال عدم العثور على العنصر
-        </script>
-    }
+    <script>
+        $(document).ready(function () {
+            // Handle click on the delete button for PRODUCTS
+            $('.delete-product').on('click', function () { // Changed selector from .delete-category to .delete-product
+                var productId = $(this).data('id'); // Changed variable name to productId
+                var productName = $(this).data('name'); // Changed variable name to productName
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-success",
+                        cancelButton: "btn btn-danger"
+                    },
+                    buttonsStyling: false
+                });
+
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: `You are about to delete "${productName}". You won't be able to revert this!`, // Updated text
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If confirmed, redirect to the delete path for PRODUCTS
+                        window.location.href = '/admin/products/delete/' + productId; // Updated URL
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire({
+                            title: "Cancelled",
+                            text: "Your product is safe :)", // Updated text
+                            icon: "error"
+                        });
+                    }
+                });
+            });
+
+            // Display Toastr messages
+        @if (TempData["success"] != null)
+        {
+            <text>
+                                toastr.success('@TempData["success"]');
+            </text>
+        }
+        @if (TempData["message"] != null)
+        {
+            <text>
+                                toastr.error('@TempData["message"]');
+            </text>
+        }
+        });
+    </script>
 }

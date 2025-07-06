@@ -10,6 +10,7 @@
 
 @section styles {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 }
 
 <div class="card-body">
@@ -29,6 +30,11 @@
                     <td>@item.Name</td>
                     <td>
                         <button type="button" class="btn btn-outline-danger delete-category" data-id="@item.Id" data-name="@item.Name">Delete</button>
+@*                        <button type="button" class="btn btn-outline-primary edit-category" data-id="@item.Id" data-name="@item.Name">Edit</button>
+ *@                        <a class="btn btn-outline-primary" href="/admin/categories/Edit/@item.Id">Edit</a>
+
+                       
+                   
                     </td>
                 </tr>
             }
@@ -39,33 +45,59 @@
 @section script {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function () {
-            // معالجة النقر على زر الحذف
+            // Handle click on the delete button
             $('.delete-category').on('click', function () {
                 var categoryId = $(this).data('id');
                 var categoryName = $(this).data('name');
 
-                // عرض مربع حوار التأكيد
-                if (confirm('Are you sure you want to delete the category  "' + categoryName + '"؟')) {
-                    // إذا أكد المستخدم، قم بإعادة التوجيه لمسار الحذف
-                    window.location.href = '/admin/categories/delete/' + categoryId;
-                }
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-success",
+                        cancelButton: "btn btn-danger"
+                    },
+                    buttonsStyling: false
+                });
+
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: `You are about to delete "${categoryName}". You won't be able to revert this!`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If confirmed, redirect to the delete path
+                        window.location.href = '/admin/categories/delete/' + categoryId;
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire({
+                            title: "Cancelled",
+                            text: "Your category is safe :)",
+                            icon: "error"
+                        });
+                    }
+                });
             });
 
-            // عرض رسائل Toastr
-            // يجب أن تكون هذه الأجزاء داخل كتلة السكريبت العامة أيضًا
+            // Display Toastr messages
         @if (TempData["success"] != null)
         {
             <text>
-                        toastr.success('@TempData["success"]');
+                                toastr.success('@TempData["success"]');
             </text>
         }
         @if (TempData["message"] != null)
         {
             <text>
-                        toastr.error('@TempData["message"]'); // لعرض رسالة الخطأ في حال عدم العثور على العنصر
+                                toastr.error('@TempData["message"]'); // For displaying error messages
             </text>
         }
         });
